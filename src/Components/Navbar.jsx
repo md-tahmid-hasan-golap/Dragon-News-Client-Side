@@ -1,8 +1,28 @@
-import React from "react";
-import { Link, NavLink } from "react-router";
+import React, { useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router";
 import userProfile from "../assets/user.png";
+import { AuthContext } from "../firebase/FirebaseAuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const handelLogout = () => {
+    logOut()
+      .then((result) => {
+        console.log(result);
+        Swal.fire({
+          title: "LogOut Successfully!",
+          icon: "success",
+          draggable: true,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="max-w-6xl mx-auto my-10 flex justify-between">
       <div className=""></div>
@@ -55,10 +75,30 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="logo_nav flex items-center gap-5">
-        <img src={userProfile} alt="" />
-        <Link to="/login" className="btn btn-neutral">
-          Login
-        </Link>
+        {user ? (
+          <div className="logo_nav flex items-center gap-5">
+            <img
+              className="w-12 h-12 rounded-full border-2 border-green-600"
+              src={user.photoURL}
+              title={user.displayName}
+              alt="User Photo"
+            />
+            <button
+              onClick={handelLogout}
+              className="btn bg-red-600 text-white"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="logo_nav flex items-center gap-5">
+            {" "}
+            <img src={userProfile} alt="" />
+            <Link to="/auth/login" className="btn btn-neutral">
+              Login
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
