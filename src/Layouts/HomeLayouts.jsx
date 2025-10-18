@@ -14,15 +14,24 @@ const HomeLayouts = () => {
         <LatestNews></LatestNews>
         <Navbar></Navbar>
       </header>
-      <main className="max-w-6xl mx-auto grid grid-cols-12">
+      <main className="max-w-6xl mx-auto grid grid-cols-12 gap-6 px-4">
+        {/* Left Sidebar */}
         <aside className="col-span-3">
-          <LeftAside></LeftAside>
+          <div className="sticky top-4">
+            <LeftAside />
+          </div>
         </aside>
+
+        {/* Main Content */}
         <section className="main col-span-6">
-          <Outlet></Outlet>
+          <Outlet />
         </section>
+
+        {/* Right Sidebar */}
         <aside className="col-span-3">
-          <RightAside></RightAside>
+          <div className="sticky top-4">
+            <RightAside />
+          </div>
         </aside>
       </main>
     </div>
