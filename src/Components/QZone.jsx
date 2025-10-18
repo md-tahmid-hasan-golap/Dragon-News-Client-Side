@@ -2,7 +2,7 @@ import React from "react";
 import Swimming from "../assets/swimming.png";
 import Class from "../assets/class.png";
 import PlayGround from "../assets/playground.png";
-
+import bgImg from "../assets/bg.png";
 const QZone = () => {
   return (
     <div className="mt-7">
@@ -11,6 +11,7 @@ const QZone = () => {
         <img src={Swimming} alt="Swimming" className="w-full rounded" />
         <img src={Class} alt="Class" className="w-full rounded" />
         <img src={PlayGround} alt="Playground" className="w-full rounded" />
+        <img src={bgImg} alt="Playground" className="w-full rounded" />
       </div>
     </div>
   );
