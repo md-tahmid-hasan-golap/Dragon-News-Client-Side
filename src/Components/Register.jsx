@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 const Register = () => {
   const { creatUser, signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -15,17 +16,19 @@ const Register = () => {
     const email = form.email.value;
     const password = form.password.value;
     const acceptTerms = form.acceptTerms.checked;
-    console.log("Name:", name);
-    console.log("Photo URL:", photoURL);
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Accepted Terms:", acceptTerms);
+
+    if (!acceptTerms) {
+      Swal.fire({
+        title: "You must accept the Terms & Conditions!",
+        icon: "warning",
+      });
+      return;
+    }
+
     creatUser(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
         Swal.fire({
-          title: "Register SuccessFully!",
+          title: "Register Successful!",
           icon: "success",
           draggable: true,
           timer: 1500,
@@ -33,15 +36,20 @@ const Register = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          title: "Registration Failed!",
+          text: error.message,
+          icon: "error",
+          draggable: true,
+        });
       });
   };
-  const handelGoogleSignIn = () => {
+
+  const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log(result);
         Swal.fire({
-          title: "Sign In with Google SuccessFully!",
+          title: "Sign In with Google Successful!",
           icon: "success",
           draggable: true,
           timer: 1500,
@@ -49,92 +57,108 @@ const Register = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          title: "Google Sign In Failed!",
+          text: error.message,
+          icon: "error",
+          draggable: true,
+        });
       });
   };
 
   return (
-    <div className="my-32">
-      <div className="card bg-base-100 w-full max-w-sm mx-auto shadow-2xl">
-        <div className="card-body">
-          <h1 className="text-3xl text-center font-bold">
-            Register your account
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-slate-900 px-4">
+      <div className="card w-full max-w-md bg-white dark:bg-slate-800 shadow-2xl rounded-lg">
+        <div className="card-body p-6 sm:p-8">
+          <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white">
+            Register Your Account
           </h1>
-          <hr className="my-4" />
+          <hr className="my-5 border-gray-300 dark:border-slate-600" />
 
-          <form onSubmit={handleRegister}>
-            <fieldset className="fieldset">
-              <label className="label font-bold text-black mt-2">
+          <form onSubmit={handleRegister} className="flex flex-col gap-4">
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
                 Your Name
               </label>
               <input
                 type="text"
                 name="name"
                 placeholder="Enter your name"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
                 required
               />
+            </div>
 
-              <label className="label font-bold text-black mt-4">
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
                 Photo URL
               </label>
               <input
                 type="text"
                 name="photoURL"
                 placeholder="Enter your photo URL"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
               />
+            </div>
 
-              <label className="label font-bold text-black mt-4">Email</label>
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email address"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
                 required
               />
+            </div>
 
-              <label className="label font-bold text-black mt-4">
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
                 Password
               </label>
               <input
                 type="password"
                 name="password"
                 placeholder="Enter your password"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
                 required
               />
+            </div>
 
-              <div className="flex items-center gap-2 mt-4">
-                <input
-                  type="checkbox"
-                  name="acceptTerms"
-                  className="checkbox checkbox-sm"
-                  required
-                />
-                <p className="text-sm">
-                  Accept{" "}
-                  <a href="#" className="font-bold link link-hover">
-                    Terms & Conditions
-                  </a>
-                </p>
-              </div>
+            <div className="flex items-center gap-2 mt-2">
+              <input
+                type="checkbox"
+                name="acceptTerms"
+                className="checkbox checkbox-sm"
+                required
+              />
+              <p className="text-sm text-gray-700 dark:text-gray-300">
+                Accept{" "}
+                <a href="#" className="font-bold link link-hover">
+                  Terms & Conditions
+                </a>
+              </p>
+            </div>
 
-              <button className="btn btn-neutral mt-5 w-full">Register</button>
-            </fieldset>
+            <button className="btn btn-neutral w-full mt-4">Register</button>
           </form>
-          <button onClick={handelGoogleSignIn} className="btn btn-outline">
-            <FcGoogle size={25} />
-            Sign In With Google
-          </button>
-        </div>
 
-        <p className="text-center py-4">
-          Already Have An Account{" "}
-          <Link to="/auth/login" className="text-blue-600 underline">
-            Login
-          </Link>
-        </p>
+          <button
+            onClick={handleGoogleSignIn}
+            className="btn btn-outline w-full mt-4 flex items-center justify-center gap-2"
+          >
+            <FcGoogle size={25} /> Sign In with Google
+          </button>
+
+          <p className="text-center py-4 text-gray-700 dark:text-gray-300">
+            Already have an account?{" "}
+            <Link to="/auth/login" className="text-blue-600 underline">
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

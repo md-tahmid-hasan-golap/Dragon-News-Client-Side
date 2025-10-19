@@ -8,21 +8,29 @@ import RightAside from "../Components/RightAside";
 
 const HomeLayouts = () => {
   return (
-    <div>
+    <div className="bg-gray-50 dark:bg-slate-900 min-h-screen">
+      {/* Header Section */}
       <header>
-        <Header></Header>
-        <LatestNews></LatestNews>
-        <Navbar></Navbar>
+        <Header />
+        <LatestNews />
+        <Navbar />
       </header>
-      <main className="max-w-6xl mx-auto grid grid-cols-12">
-        <aside className="col-span-3 sticky top-0 h-fit">
-          <LeftAside></LeftAside>
+
+      {/* Main Content */}
+      <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 px-4 sm:px-6">
+        {/* Left Sidebar */}
+        <aside className="hidden lg:block lg:col-span-3 sticky top-20 h-fit">
+          <LeftAside />
         </aside>
-        <section className="main col-span-6">
-          <Outlet></Outlet>
+
+        {/* Main Outlet */}
+        <section className="col-span-1 lg:col-span-6">
+          <Outlet />
         </section>
-        <aside className="col-span-3 sticky top-0 h-fit">
-          <RightAside></RightAside>
+
+        {/* Right Sidebar */}
+        <aside className="hidden lg:block lg:col-span-3 sticky top-20 h-fit">
+          <RightAside />
         </aside>
       </main>
     </div>

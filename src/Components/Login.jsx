@@ -7,17 +7,17 @@ import { FcGoogle } from "react-icons/fc";
 const Login = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
+
     signInUser(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
         Swal.fire({
-          title: "Login SuccessFully!",
+          title: "Login Successful!",
           icon: "success",
           draggable: true,
           timer: 1500,
@@ -25,16 +25,20 @@ const Login = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          title: "Login Failed!",
+          text: error.message,
+          icon: "error",
+          draggable: true,
+        });
       });
   };
 
-  const handelGoogleSignIn = () => {
+  const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log(result);
         Swal.fire({
-          title: "Sign In with Google SuccessFully!",
+          title: "Sign In with Google Successful!",
           icon: "success",
           draggable: true,
           timer: 1500,
@@ -42,63 +46,73 @@ const Login = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire({
+          title: "Google Sign In Failed!",
+          text: error.message,
+          icon: "error",
+          draggable: true,
+        });
       });
   };
 
   return (
-    <div className="my-32">
-      <div className="card bg-base-100 w-full max-w-sm mx-auto shadow-2xl">
-        <div className="card-body">
-          <h1 className="text-3xl text-center font-bold">Login your account</h1>
-          <hr className="my-4" />
+    <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-slate-900 px-4">
+      <div className="card w-full max-w-md bg-white dark:bg-slate-800 shadow-2xl rounded-lg">
+        <div className="card-body p-6 sm:p-8">
+          <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white">
+            Login Your Account
+          </h1>
+          <hr className="my-5 border-gray-300 dark:border-slate-600" />
 
-          <form onSubmit={handleLogin}>
-            <fieldset className="fieldset">
-              <label className="label font-bold text-black mt-2">
-                Email address
+          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
+                Email Address
               </label>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email address"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
                 required
               />
+            </div>
 
-              <label className="label font-bold text-black mt-4">
+            <div>
+              <label className="label font-medium text-gray-700 dark:text-gray-200">
                 Password
               </label>
               <input
                 type="password"
                 name="password"
                 placeholder="Enter your password"
-                className="input input-bordered w-full"
+                className="input input-bordered w-full mt-1"
                 required
               />
-
-              <div className="flex justify-between items-center mt-2">
+              <div className="flex justify-end mt-1">
                 <a href="#" className="link link-hover text-sm">
                   Forgot password?
                 </a>
               </div>
+            </div>
 
-              <button className="btn btn-neutral mt-5 w-full">Login</button>
-            </fieldset>
+            <button className="btn btn-neutral w-full mt-4">Login</button>
           </form>
 
-          <button onClick={handelGoogleSignIn} className="btn btn-outline">
-            <FcGoogle size={25} />
-            Sign In With Google
+          <button
+            onClick={handleGoogleSignIn}
+            className="btn btn-outline w-full mt-4 flex items-center justify-center gap-2"
+          >
+            <FcGoogle size={25} /> Sign In with Google
           </button>
-        </div>
 
-        <p className="text-center py-4">
-          Don’t Have An Account?{" "}
-          <Link to="/auth/register" className="text-blue-600 underline">
-            Register
-          </Link>
-        </p>
+          <p className="text-center py-4 text-gray-700 dark:text-gray-300">
+            Don’t have an account?{" "}
+            <Link to="/auth/register" className="text-blue-600 underline">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -8,33 +8,41 @@ import { useNavigate } from "react-router";
 const LoginWith = () => {
   const { signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const handelGoogleSignIn = () => {
     signInWithGoogle()
-      .then((result) => {
-        console.log(result);
+      .then(() => {
         Swal.fire({
-          title: "Sign In with Google SuccessFully!",
+          title: "Signed in with Google successfully!",
           icon: "success",
-          draggable: true,
           timer: 1500,
+          showConfirmButton: false,
         });
         navigate("/");
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.error(error));
   };
+
   return (
-    <div className="flex flex-col items-center justify-center gap-3">
-      <h2 className="text-2xl font-medium">Login With</h2>
-      <h2 onClick={handelGoogleSignIn} className="btn btn-outline">
+    <div className="flex flex-col items-center justify-center gap-4 bg-white p-5 sm:p-8 rounded-lg shadow-md w-full sm:max-w-sm mx-auto mt-10">
+      <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+        Login With
+      </h2>
+
+      {/* Google Login */}
+      <button
+        onClick={handelGoogleSignIn}
+        className="btn btn-outline w-full flex items-center justify-center gap-3 hover:bg-blue-50 transition duration-300"
+      >
         <FcGoogle size={25} />
-        Login With Google
-      </h2>
-      <h2 className="btn btn-outline">
-        <FaGithub size={25} />
-        Login With Github
-      </h2>
+        <span className="font-medium text-gray-700">Login with Google</span>
+      </button>
+
+      {/* Github Login */}
+      <button className="btn btn-outline w-full flex items-center justify-center gap-3 hover:bg-gray-100 transition duration-300">
+        <FaGithub size={25} className="text-gray-700" />
+        <span className="font-medium text-gray-700">Login with Github</span>
+      </button>
     </div>
   );
 };

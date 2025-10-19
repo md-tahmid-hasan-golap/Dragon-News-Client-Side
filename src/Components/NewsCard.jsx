@@ -1,5 +1,5 @@
 import React from "react";
-import { FaRegBookmark, FaShareAlt, FaStar, FaRegStar } from "react-icons/fa"; // react-icons import
+import { FaRegBookmark, FaShareAlt, FaStar, FaRegStar } from "react-icons/fa";
 
 const NewsCard = ({ category }) => {
   if (!category) return null;
@@ -25,9 +25,9 @@ const NewsCard = ({ category }) => {
   const showRating = ratingNumber ? ratingNumber.toFixed(1) : "0.0";
 
   return (
-    <article className="max-w-xl mx-auto bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+    <article className="max-w-2xl mx-auto bg-white dark:bg-slate-800 rounded-xl shadow-md overflow-hidden transition hover:shadow-lg">
       {/* author row */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-slate-700">
+      <div className="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-slate-700 gap-2">
         <div className="flex items-center gap-3">
           <img
             src={author?.img}
@@ -66,17 +66,17 @@ const NewsCard = ({ category }) => {
       </div>
 
       {/* title */}
-      <h2 className="px-4 pt-5 text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-100">
+      <h2 className="px-4 pt-5 text-lg sm:text-xl md:text-2xl font-semibold text-slate-900 dark:text-slate-100 leading-snug">
         {title}
       </h2>
 
       {/* image */}
       <div className="px-4 pt-4">
-        <div className="w-full rounded-md overflow-hidden shadow-sm">
+        <div className="w-full rounded-md overflow-hidden">
           <img
             src={thumbnail_url}
             alt={title}
-            className="w-full h-56 object-cover"
+            className="w-full h-52 sm:h-64 md:h-72 object-cover"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src =
@@ -89,15 +89,15 @@ const NewsCard = ({ category }) => {
       {/* excerpt + read more */}
       <div className="px-4 py-4">
         {details && (
-          <p className="text-sm text-slate-600 dark:text-slate-300 mb-3 line-clamp-4">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-3 line-clamp-4">
             {details}
           </p>
         )}
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <a
             href="#"
-            className="text-amber-600 hover:underline text-sm font-medium"
+            className="text-amber-600 hover:underline text-sm sm:text-base font-medium"
           >
             Read More
           </a>
@@ -117,7 +117,7 @@ const NewsCard = ({ category }) => {
               </span>
             </div>
 
-            {/* small circular icon */}
+            {/* circular icon */}
             <button className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
