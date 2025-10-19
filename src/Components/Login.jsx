@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../firebase/FirebaseAuthProvider";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const Login = () => {
-  const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const { signInUser, signInWithGoogle, signInWithGithib } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
@@ -51,6 +53,25 @@ const Login = () => {
           text: error.message,
           icon: "error",
           draggable: true,
+        });
+      });
+  };
+
+  const handleGithub = () => {
+    signInWithGithib()
+      .then((result) => {
+        Swal.fire({
+          title: "Sign In with GitHub Successful!",
+          icon: "success",
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "GitHub Sign In Failed!",
+          text: error.message,
+          icon: "error",
         });
       });
   };
@@ -104,6 +125,12 @@ const Login = () => {
             className="btn btn-outline w-full mt-4 flex items-center justify-center gap-2"
           >
             <FcGoogle size={25} /> Sign In with Google
+          </button>
+          <button
+            onClick={handleGithub}
+            className="btn btn-outline w-full mt-4 flex items-center justify-center gap-2"
+          >
+            <FaGithub size={25} /> Sign In with Github
           </button>
 
           <p className="text-center py-4 text-gray-700 dark:text-gray-300">

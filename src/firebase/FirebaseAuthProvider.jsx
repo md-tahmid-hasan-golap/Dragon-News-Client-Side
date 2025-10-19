@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -14,6 +15,7 @@ export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
+const gitprovider = new GithubAuthProvider();
 const FirebaseAuthProvider = ({ children }) => {
   // set User
   const [user, setUser] = useState(null);
@@ -35,11 +37,18 @@ const FirebaseAuthProvider = ({ children }) => {
 
   // signInWithGoogle
   const signInWithGoogle = () => {
+    setLoading(true);
     return signInWithPopup(auth, provider);
   };
 
+  // signInWithGithib
+  const signInWithGithib = () => {
+    setLoading(true);
+    return signInWithPopup(auth, gitprovider);
+  };
   // signOut
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
   // onAuthStateChange
@@ -63,6 +72,7 @@ const FirebaseAuthProvider = ({ children }) => {
     signInUser,
     logOut,
     signInWithGoogle,
+    signInWithGithib,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>
